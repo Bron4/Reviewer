@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const express = require("express");
 const session = require("express-session");
 const MongoStore = require('connect-mongo');
+const path = require("path"); // ADDED FOR STATIC FILE SERVING
 const basicRoutes = require("./routes/index");
 const authRoutes = require("./routes/authRoutes");
 const cityRoutes = require("./routes/cityRoutes");
@@ -24,8 +25,10 @@ if (!process.env.DATABASE_URL) {
 
 const app = express();
 const port = process.env.PORT || 3000;
+
 // Pretty-print JSON responses
 app.enable('json spaces');
+
 // We want to be consistent with URL paths, so we enable strict routing
 app.enable('strict routing');
 
@@ -41,26 +44,43 @@ app.on("error", (error) => {
   console.error(error.stack);
 });
 
+// Serve static files from React build - ADDED FOR FRONTEND
+app.use(express.static(path.join(__dirname, '../client/build')));
+
 // Basic Routes
 app.use(basicRoutes);
+
 // Authentication Routes
 app.use('/api/auth', authRoutes);
+
 // City Routes
 app.use('/api/cities', cityRoutes);
+
 // Technician Routes
 app.use('/api/technicians', technicianRoutes);
+
 // Admin Routes
 app.use('/api/admin', adminRoutes);
+
 // Message Template Routes (admin)
 app.use('/api/admin', messageTemplateRoutes);
+
 // SMS Template Routes
 app.use('/api/sms-templates', smsTemplateRoutes);
+
 // SMS Routes
 app.use('/api/sms', smsRoutes);
+
 // URL Routes
 app.use('/api/url', urlRoutes);
+
 // Report Routes
 app.use('/api/reports', reportRoutes);
+
+// Catch all handler: send back React's index.html file for any non-API routes - ADDED FOR FRONTEND
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
+});
 
 // If no routes handled the request, it's a 404
 app.use((req, res, next) => {
