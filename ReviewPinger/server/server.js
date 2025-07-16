@@ -39,6 +39,22 @@ app.use(express.urlencoded({ extended: true }));
 // Database connection
 connectDB();
 
+// DEBUG: Check what files exist and where we are
+const fs = require('fs');
+console.log('Current directory:', __dirname);
+console.log('Looking for client build at:', path.join(__dirname, '../client/build'));
+console.log('Does ../client exist?', fs.existsSync(path.join(__dirname, '../client')));
+console.log('Does ../client/build exist?', fs.existsSync(path.join(__dirname, '../client/build')));
+console.log('Does ../client/dist exist?', fs.existsSync(path.join(__dirname, '../client/dist')));
+try {
+  console.log('Root directory contents:', fs.readdirSync(path.join(__dirname, '..')));
+  if (fs.existsSync(path.join(__dirname, '../client'))) {
+    console.log('Client directory contents:', fs.readdirSync(path.join(__dirname, '../client')));
+  }
+} catch (e) {
+  console.log('Error reading directories:', e.message);
+}
+
 app.on("error", (error) => {
   console.error(`Server error: ${error.message}`);
   console.error(error.stack);
