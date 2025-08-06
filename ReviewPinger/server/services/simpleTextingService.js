@@ -61,7 +61,8 @@ class SimpleTextingService {
       const formattedPhone = cleanPhone.startsWith('1') ? cleanPhone : `1${cleanPhone}`;
 
       console.log('SIMPLETEXTING SERVICE: Formatted phone:', formattedPhone);
-
+      
+      console.log("Final SMS message value:", message);
       const payload = {
       message: message,
       contactPhone: formattedPhone
