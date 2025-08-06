@@ -68,8 +68,8 @@ class SimpleTextingService {
       };
 
       const headers = {
-        'X-API-Key': this.apiKey,
-        'Content-Type': 'application/json'
+      'Authorization': `Bearer ${this.apiKey}`,
+      'Content-Type': 'application/json'
       };
 
       const fullUrl = `${this.baseUrl}/api/messages`;
