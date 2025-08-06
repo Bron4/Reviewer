@@ -64,7 +64,7 @@ class SimpleTextingService {
       
       console.log("Final SMS message value:", message);
       const payload = {
-      message: message,
+      text: message, // ✅ use `text`, not `message`
       contactPhone: formattedPhone
       };
 
