@@ -63,8 +63,8 @@ class SimpleTextingService {
       console.log('SIMPLETEXTING SERVICE: Formatted phone:', formattedPhone);
 
       const payload = {
-        text: message,
-        phone: formattedPhone
+      message: message,
+      contactPhone: formattedPhone
       };
 
       const headers = {
